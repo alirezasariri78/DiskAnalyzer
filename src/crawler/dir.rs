@@ -1,4 +1,8 @@
-use std::{error::Error, fmt::Display, path::Path};
+use std::{
+    error::Error,
+    fmt::Display,
+    path::{Path, PathBuf},
+};
 
 pub fn path_exists(path: &str) -> bool {
     Path::exists(Path::new(path))
@@ -7,6 +11,10 @@ pub fn path_exists(path: &str) -> bool {
 pub fn drive_exists(drive: char) -> bool {
     let drive_name = drive.to_string() + ":";
     path_exists(&drive_name)
+}
+
+pub fn get_dir_lable(path: &PathBuf) -> &str {
+    path.to_str().unwrap().split("\\").last().unwrap()
 }
 
 #[derive(Debug)]
