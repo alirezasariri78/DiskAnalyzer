@@ -1,7 +1,6 @@
 use std::{
     error::Error,
     fmt::Display,
-    ops::Deref,
     path::{Path, PathBuf},
 };
 
@@ -19,17 +18,19 @@ pub fn get_dir_lable(path: &PathBuf) -> &str {
 }
 
 pub fn get_dir_files_size(path: &PathBuf) -> u64 {
-    println!("this .............. {:#?}", &path);
-    let metadata_lis = path
-        .read_dir()
-        .unwrap()
-        .enumerate()
-        .map(|item| item.1.unwrap().metadata());
+    if let Ok(metadata_lis_res) = path.read_dir() {
+        let metadata_lis = metadata_lis_res
+            .enumerate()
+            .map(|item| item.1.unwrap().metadata());
 
-    metadata_lis
-        .filter(|i| i.as_ref().unwrap().is_file())
-        .map(|i| i.unwrap().len())
-        .sum()
+        let size = metadata_lis
+            .filter(|i| i.as_ref().unwrap().is_file())
+            .map(|i| i.unwrap().len())
+            .sum();
+
+        return size;
+    }
+    0
 }
 
 #[derive(Debug)]

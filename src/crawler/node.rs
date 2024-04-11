@@ -5,9 +5,9 @@ use std::sync::{Arc, Mutex, Weak};
 pub struct Node {
     name: String,
     size: Mutex<u64>,
+    path: PathBuf,
     childrens: Mutex<Vec<Arc<Node>>>,
     parent: Mutex<Weak<Node>>,
-    path: PathBuf,
 }
 
 impl Node {
@@ -21,6 +21,9 @@ impl Node {
         }
     }
 
+    pub fn get_size(&self) -> u64 {
+        *self.size.lock().unwrap()
+    }
     pub fn add_child(&self, node: &Arc<Node>) {
         _ = &self.childrens.lock().unwrap().push(Arc::clone(&node));
     }
@@ -32,9 +35,9 @@ impl Node {
     pub fn set_size(&self, size: u64) {
         let guard = &mut self.size.lock().unwrap();
         **guard += size;
-        if self.name != "root" {
-            let parent = self.parent.lock().unwrap();
-            if let Some(n) = parent.upgrade() {
+        let parent = self.parent.lock().unwrap();
+        if let Some(n) = parent.upgrade() {
+            if n.name != "root" {
                 n.set_size(size);
             }
         }
