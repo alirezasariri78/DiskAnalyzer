@@ -3,6 +3,7 @@ use clap::*;
 const DEPTH_ID: &str = "drive";
 const THREADS_ID: &str = "threads";
 const DRIVES_ID: &str = "drives";
+const PATH_ID: &str = "path";
 
 #[derive(Debug, Clone)]
 pub struct CommandArgs {
@@ -14,7 +15,7 @@ pub struct CommandArgs {
 impl CommandArgs {
     fn from_clap_args(args: ArgMatches) -> CommandArgs {
         CommandArgs {
-            depth: *args.get_one::<usize>(DEPTH_ID).unwrap_or(&5),
+            depth: *args.get_one::<usize>(DEPTH_ID).unwrap_or(&0),
             threads: *args.get_one::<usize>(THREADS_ID).unwrap_or(&2),
             drive: args
                 .get_one::<String>(DRIVES_ID)

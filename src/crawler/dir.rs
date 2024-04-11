@@ -1,6 +1,7 @@
 use std::{
     error::Error,
     fmt::Display,
+    ops::Deref,
     path::{Path, PathBuf},
 };
 
@@ -15,6 +16,20 @@ pub fn drive_exists(drive: char) -> bool {
 
 pub fn get_dir_lable(path: &PathBuf) -> &str {
     path.to_str().unwrap().split("\\").last().unwrap()
+}
+
+pub fn get_dir_files_size(path: &PathBuf) -> u64 {
+    println!("this .............. {:#?}", &path);
+    let metadata_lis = path
+        .read_dir()
+        .unwrap()
+        .enumerate()
+        .map(|item| item.1.unwrap().metadata());
+
+    metadata_lis
+        .filter(|i| i.as_ref().unwrap().is_file())
+        .map(|i| i.unwrap().len())
+        .sum()
 }
 
 #[derive(Debug)]
