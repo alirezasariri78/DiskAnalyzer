@@ -1,7 +1,8 @@
 [package]
-name = "sys"
+name = "DiskAnalyzer"
 version = "0.1.0"
 edition = "2021"
+repository="https://github.com/alirezasariri78/DiskAnalyzer"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
