@@ -9,7 +9,7 @@ use std::path::PathBuf;
 use std::sync::Arc;
 
 pub fn get_tree(args: &CommandArgs) -> Arc<Node> {
-    let root = Arc::new(Node::new(PathBuf::new(), String::from("root"), 0));
+    let root = Arc::new(Node::new(PathBuf::from("root"), String::from("root"), 0, 0));
 
     if args.drive.is_some() {
         build_drive_tree(args.drive.to_owned().unwrap(), &root);
@@ -50,6 +50,7 @@ fn start_build(path: String, root: &Arc<Node>) {
         dir_path.clone(),
         get_dir_lable(&dir_path).to_string(),
         0,
+        Arc::clone(root).get_depth() + 1,
     ));
     root.add_child(&node);
     node.set_parent(&root);
@@ -74,6 +75,7 @@ fn build_tree(path: PathBuf, node: &Arc<Node>) -> Result<(), DirError> {
                     entry.path().clone(),
                     get_dir_lable(&entry.path()).to_string(),
                     0,
+                    Arc::clone(node).get_depth() + 1,
                 ));
                 node.add_child(&new_node);
                 new_node.set_parent(&node);

@@ -14,6 +14,8 @@ fn main() {
     // let mut a = String::new();
     // std::io::stdin().read_line(&mut a).unwrap();
     show_diagram(&tree);
+
+    //dbg!(tree);
 }
 
 mod tests {

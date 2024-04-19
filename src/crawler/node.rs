@@ -1,3 +1,4 @@
+use std::ops::Deref;
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex, Weak};
 
@@ -5,17 +6,19 @@ use std::sync::{Arc, Mutex, Weak};
 pub struct Node {
     name: String,
     size: Mutex<u64>,
+    depth: Mutex<usize>,
+    parent: Mutex<Weak<Node>>,
     path: PathBuf,
     childrens: Mutex<Vec<Arc<Node>>>,
-    parent: Mutex<Weak<Node>>,
 }
 
 impl Node {
-    pub fn new(path: PathBuf, name: String, size: u64) -> Self {
+    pub fn new(path: PathBuf, name: String, size: u64, depth: usize) -> Self {
         Self {
             size: Mutex::new(size),
             childrens: Mutex::new(Vec::new()),
             parent: Mutex::new(Weak::new()),
+            depth: Mutex::new(depth),
             name,
             path,
         }
@@ -36,6 +39,9 @@ impl Node {
     }
     pub fn get_name(&self) -> &String {
         &self.name
+    }
+    pub fn get_depth(&self) -> usize {
+        *self.depth.lock().unwrap()
     }
 
     pub fn set_size(&self, size: u64) {
