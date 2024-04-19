@@ -26,12 +26,14 @@ fn crawl_tree(tree: &Arc<Node>, result: &mut String) {
 }
 
 fn add_branch(node: &Node) -> String {
+    let mut size = node.get_size().abbreviate_number();
+    size.push('B');
     format!(
         "{}{}{}{} ({})",
         '\n',
         "\t".repeat(node.get_depth()),
         BRANCH_CHAR,
         node.get_name(),
-        node.get_size().abbreviate_number()
+        size
     )
 }
