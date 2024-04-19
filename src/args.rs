@@ -4,6 +4,12 @@ const DEPTH_ID: &str = "drive";
 const THREADS_ID: &str = "threads";
 const DRIVES_ID: &str = "drives";
 const PATH_ID: &str = "path";
+const DIAGRAM_ID: &str = "diagram";
+#[derive(Debug, Clone)]
+pub enum DiagramType {
+    tree,
+    bar,
+}
 
 #[derive(Debug, Clone)]
 pub struct CommandArgs {
@@ -11,6 +17,16 @@ pub struct CommandArgs {
     pub depth: usize,
     pub threads: usize,
     pub path: Option<String>,
+    pub diagram: DiagramType,
+}
+
+impl DiagramType {
+    fn from_string(input: &str) -> Self {
+        match input {
+            "bar" => DiagramType::bar,
+            _ => DiagramType::tree,
+        }
+    }
 }
 
 impl CommandArgs {
@@ -29,9 +45,13 @@ impl CommandArgs {
             Some(p) => Some(p.to_string()),
             None => None,
         };
+
+        let default_diagram = &String::from("tree");
+        let diagram_arg: &String = args.get_one(DIAGRAM_ID).unwrap_or(default_diagram);
         CommandArgs {
             depth: *args.get_one::<usize>(DEPTH_ID).unwrap_or(&0),
             threads: *args.get_one::<usize>(THREADS_ID).unwrap_or(&2),
+            diagram: DiagramType::from_string(diagram_arg),
             drive: d,
             path,
         }
@@ -70,6 +90,12 @@ pub fn get_args() -> CommandArgs {
                 .long("path")
                 .conflicts_with(DRIVES_ID)
                 .help("analyze give path"),
+        )
+        .arg(
+            Arg::new(DIAGRAM_ID)
+                .alias("Diagram")
+                .long("diagram")
+                .help("Set Diagram Types : tree , bar"),
         )
         .about("get information about size of folders in each drive")
         .get_matches();

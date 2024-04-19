@@ -31,7 +31,7 @@ fn add_branch(node: &Node) -> String {
         '\n',
         "\t".repeat(node.get_depth()),
         BRANCH_CHAR,
-        node.get_path().to_str().unwrap_or(""),
+        node.get_name(),
         node.get_size().abbreviate_number()
     )
 }
