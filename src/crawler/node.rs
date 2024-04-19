@@ -31,6 +31,12 @@ impl Node {
     pub fn set_parent(&self, node: &Arc<Node>) {
         *self.parent.lock().unwrap() = Arc::downgrade(&node);
     }
+    pub fn get_path(&self) -> &PathBuf {
+        &self.path
+    }
+    pub fn get_name(&self) -> &String {
+        &self.name
+    }
 
     pub fn set_size(&self, size: u64) {
         let guard = &mut self.size.lock().unwrap();
@@ -41,5 +47,9 @@ impl Node {
                 n.set_size(size);
             }
         }
+    }
+
+    pub fn get_childes(&self) -> &Mutex<Vec<Arc<Node>>> {
+        &self.childrens
     }
 }

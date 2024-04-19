@@ -4,7 +4,7 @@ mod workers;
 
 use crate::args::CommandArgs;
 use dir::*;
-use node::Node;
+pub use node::Node;
 use std::path::PathBuf;
 use std::sync::Arc;
 
