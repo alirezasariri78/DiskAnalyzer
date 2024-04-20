@@ -1,15 +1,23 @@
 # DiskAnalyzer
 
 
-## Note:
-This Project Has Not been Released.
 
 ## Description
 Check Folder Size And Create Diagram Based On Their Size
+
+
+
 ![image description](https://github.com/alirezasariri78/DiskAnalyzer/blob/master/pics/tree.png)
 
+
+
+## Note:
+# This Project Has Not been Released.
+# Project May Not Work On Some Of System Folders Due To Lack Of Permissions (Access Denied)
+# This Project Works On Windows Yet (Other Os Will Add Later)
+
 ## ToDO List :
-# [ ] Add Depth For Folder Crawler
+# [x] Add Depth For Folder Crawler
 # [ ] Add More Diagrams 
 # [ ] Add Linux And Mac Support (Currently It Supports Windows)
 # [ ] Handle Crawling Using Thread Pool
