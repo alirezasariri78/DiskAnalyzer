@@ -48,8 +48,11 @@ impl CommandArgs {
 
         let default_diagram = &String::from("tree");
         let diagram_arg: &String = args.get_one(DIAGRAM_ID).unwrap_or(default_diagram);
+        let default_depth=&String::from("0");
+        let depth_arg= args.get_one::<String>(DEPTH_ID).unwrap_or(default_depth);
+        let depth=depth_arg.clone().parse().unwrap_or(0 as usize);
         CommandArgs {
-            depth: *args.get_one::<usize>(DEPTH_ID).unwrap_or(&0),
+            depth: depth,
             threads: *args.get_one::<usize>(THREADS_ID).unwrap_or(&2),
             diagram: DiagramType::from_string(diagram_arg),
             drive: d,

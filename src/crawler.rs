@@ -45,7 +45,6 @@ fn build_path_tree(path: String, root: &Arc<Node>) {
 
 fn start_build(path: String, root: &Arc<Node>) {
     let dir_path = PathBuf::from(path);
-    println!("going pass dir_path: {:#?}", dir_path.clone());
     let node = Arc::new(Node::new(
         dir_path.clone(),
         get_dir_lable(&dir_path).to_string(),
