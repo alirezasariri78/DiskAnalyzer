@@ -1,5 +1,5 @@
 use crate::crawler::Node;
-use std::{env::args, sync::Arc};
+use std::sync::Arc;
 mod tree;
 use crate::args::{CommandArgs, DiagramType};
 pub fn show_diagram(root: &Arc<Node>, arguments: &CommandArgs) {
