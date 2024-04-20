@@ -9,7 +9,7 @@ Check Folder Size And Create Diagram Based On Their Size
 ![image description](https://github.com/alirezasariri78/DiskAnalyzer/blob/master/pics/tree.png)
 
 ## ToDO List :
-# [ ] Add Depth For Folder Crawler
+# [x] Add Depth For Folder Crawler
 # [ ] Add More Diagrams 
 # [ ] Add Linux And Mac Support (Currently It Supports Windows)
 # [ ] Handle Crawling Using Thread Pool
