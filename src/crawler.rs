@@ -20,12 +20,13 @@ pub fn get_tree(args: &CommandArgs) -> Arc<Node> {
     root
 }
 
-#[cfg(target_os = "windows")]
 fn build_drive_tree(drives: Vec<String>, root: &Arc<Node>) {
-    for d in drives {
-        let mut path = d.to_owned().to_string();
-        path.push_str(":\\");
-        start_build(path, root);
+    if cfg!(target_os = "windows") {
+        for d in drives {
+            let mut path = d.to_owned().to_string();
+            path.push_str(":\\");
+            start_build(path, root);
+        }
     }
 }
 
