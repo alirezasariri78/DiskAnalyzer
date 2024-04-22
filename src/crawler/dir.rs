@@ -17,7 +17,12 @@ pub fn get_dir_lable(path: &PathBuf) -> &str {
     if cfg!(target_os = "windows") {
         return path.to_str().unwrap().split("\\").last().unwrap();
     }
-    path.to_str().unwrap().split("/").last().unwrap()
+    path.to_str()
+        .unwrap()
+        .trim_end_matches("/")
+        .split("/")
+        .last()
+        .unwrap()
 }
 
 pub fn get_dir_files_size(path: &PathBuf) -> u64 {
