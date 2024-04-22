@@ -11,9 +11,9 @@ Check Folder Size And Create Diagram Based On Their Size
 
 
 ## Note:
-# This Project Has Not been Released.
-# Project May Not Work On Some Of System Folders Due To Lack Of Permissions (Access Denied)
-# This Project Works On Windows And Linux Only
+* This Project Has Not been Released.
+* Project May Not Work On Some Of System Folders Due To Lack Of Permissions (Access Denied)
+* This Project Works On Windows And Linux Only
 
 ## How To Use :
 
