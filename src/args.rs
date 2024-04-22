@@ -1,7 +1,6 @@
 use clap::*;
 
 const DEPTH_ID: &str = "drive";
-const THREADS_ID: &str = "threads";
 const DRIVES_ID: &str = "drives";
 const PATH_ID: &str = "path";
 const DIAGRAM_ID: &str = "diagram";
@@ -15,7 +14,6 @@ pub enum DiagramType {
 pub struct CommandArgs {
     pub drive: Option<Vec<String>>,
     pub depth: usize,
-    pub threads: usize,
     pub path: Option<String>,
     pub diagram: DiagramType,
 }
@@ -48,12 +46,11 @@ impl CommandArgs {
 
         let default_diagram = &String::from("tree");
         let diagram_arg: &String = args.get_one(DIAGRAM_ID).unwrap_or(default_diagram);
-        let default_depth=&String::from("0");
-        let depth_arg= args.get_one::<String>(DEPTH_ID).unwrap_or(default_depth);
-        let depth=depth_arg.clone().parse().unwrap_or(0 as usize);
+        let default_depth = &String::from("0");
+        let depth_arg = args.get_one::<String>(DEPTH_ID).unwrap_or(default_depth);
+        let depth = depth_arg.clone().parse().unwrap_or(0 as usize);
         CommandArgs {
             depth: depth,
-            threads: *args.get_one::<usize>(THREADS_ID).unwrap_or(&2),
             diagram: DiagramType::from_string(diagram_arg),
             drive: d,
             path,
@@ -76,14 +73,6 @@ pub fn get_args() -> CommandArgs {
                 .alias("dp")
                 .alias("level")
                 .help("how many level of inner directories should it scan"),
-        )
-        .arg(
-            Arg::new(THREADS_ID)
-                .short('t')
-                .long("threads")
-                .alias("thread")
-                .alias("tr")
-                .help("how many threads should it use for scanning.\n defulat to 2"),
         )
         .arg(
             Arg::new(PATH_ID)

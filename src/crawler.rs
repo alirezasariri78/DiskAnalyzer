@@ -72,28 +72,32 @@ fn build_tree(path: PathBuf, node: &Arc<Node>) -> Result<(), DirError> {
     let dir_lis_result = path.read_dir();
     if let Ok(dir_lis) = dir_lis_result {
         for dir in dir_lis {
-            let entry = dir.unwrap();
-            let metadata = entry.metadata().unwrap();
-            if metadata.is_dir() {
-                let new_node = Arc::new(Node::new(
-                    entry.path().clone(),
-                    get_dir_lable(&entry.path()).to_string(),
-                    0,
-                    Arc::clone(node).get_depth().get().to_owned() + 1,
-                ));
-                node.add_child(&new_node);
-                new_node.set_parent(&node);
-                let dir_size = get_dir_files_size(&entry.path());
-                new_node.set_size(dir_size);
-                match build_tree(entry.path(), &new_node) {
-                    Ok(_) => (),
-                    Err(_) => (),
+            if let Ok(entry) = dir {
+                if let Ok(metadata) = entry.metadata() {
+                    if metadata.is_dir() {
+                        let new_node = Arc::new(Node::new(
+                            entry.path().clone(),
+                            get_dir_lable(&entry.path()).to_string(),
+                            0,
+                            Arc::clone(node).get_depth().get().to_owned() + 1,
+                        ));
+                        node.add_child(&new_node);
+                        new_node.set_parent(&node);
+                        let dir_size = get_dir_files_size(&entry.path());
+                        new_node.set_size(dir_size);
+                        match build_tree(entry.path(), &new_node) {
+                            Ok(_) => (),
+                            Err(_) => (),
+                        }
+                    }
                 }
             }
         }
     } else if let Err(e) = dir_lis_result {
         println!("Exception in path :{:#?} :{:#?}", &path, e);
-        return Err(DirError::AccessDenied(path.to_str().unwrap().to_string()));
+        return Err(DirError::AccessDenied(
+            path.to_str().unwrap_or("").to_string(),
+        ));
     }
 
     Ok(())
