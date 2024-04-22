@@ -1,6 +1,5 @@
 mod dir;
 mod node;
-mod workers;
 
 use crate::args::CommandArgs;
 use dir::*;
@@ -22,22 +21,28 @@ pub fn get_tree(args: &CommandArgs) -> Arc<Node> {
 }
 
 fn build_drive_tree(drives: Vec<String>, root: &Arc<Node>) {
-    for d in drives {
-        let mut path = d.to_owned().to_string();
-        path.push_str(":\\");
-        start_build(path, root);
+    if cfg!(target_os = "windows") {
+        for d in drives {
+            let mut path = d.to_owned().to_string();
+            path.push_str(":\\");
+            start_build(path, root);
+        }
     }
 }
 
 fn build_pc_tree(root: &Arc<Node>) {
-    let device_names = 'A'..'Z';
-    build_drive_tree(
-        device_names
-            .filter(|d| drive_exists(*d))
-            .map(|i| i.to_string())
-            .collect(),
-        root,
-    );
+    if cfg!(target_os = "windows") {
+        let device_names = 'A'..'Z';
+        build_drive_tree(
+            device_names
+                .filter(|d| drive_exists(*d))
+                .map(|i| i.to_string())
+                .collect(),
+            root,
+        );
+    } else if cfg!(target_os = "linux") {
+        build_path_tree("/".to_string(), root);
+    }
 }
 fn build_path_tree(path: String, root: &Arc<Node>) {
     start_build(path, root);
@@ -49,7 +54,7 @@ fn start_build(path: String, root: &Arc<Node>) {
         dir_path.clone(),
         get_dir_lable(&dir_path).to_string(),
         0,
-        Arc::clone(root).get_depth() + 1,
+        Arc::clone(root).get_depth().get().to_owned() + 1,
     ));
     root.add_child(&node);
     node.set_parent(&root);
@@ -74,7 +79,7 @@ fn build_tree(path: PathBuf, node: &Arc<Node>) -> Result<(), DirError> {
                     entry.path().clone(),
                     get_dir_lable(&entry.path()).to_string(),
                     0,
-                    Arc::clone(node).get_depth() + 1,
+                    Arc::clone(node).get_depth().get().to_owned() + 1,
                 ));
                 node.add_child(&new_node);
                 new_node.set_parent(&node);
