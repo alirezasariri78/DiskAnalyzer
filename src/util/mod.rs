@@ -1,24 +1,12 @@
-pub fn thousends_seperator(mut number: u64) -> String {
-    let mut result = String::new();
-    let mut remainder = number % 1000;
-
-    while remainder > 0 || number > 0 {
-        if remainder > 0 {
-            result.insert_str(0, format!("{:03}", remainder).as_str());
-            remainder = 0;
-        } else {
-            let thousands = number % 1000;
-            number /= 1000;
-
-            if thousands > 0 {
-                remainder = thousands;
-            }
+pub fn thousends_seperator(i: u64) -> String {
+    let mut s = String::new();
+    let i_str = i.to_string();
+    let a = i_str.chars().rev().enumerate();
+    for (idx, val) in a {
+        if idx != 0 && idx % 3 == 0 {
+            s.insert(0, ',');
         }
-
-        if number > 0 {
-            result.insert_str(0, ",");
-        }
+        s.insert(0, val);
     }
-
-    result
+    s
 }

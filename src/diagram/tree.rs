@@ -2,6 +2,7 @@ use rs_abbreviation_number::NumericAbbreviate;
 
 use crate::args::CommandArgs;
 use crate::crawler::Node;
+use crate::util::*;
 use std::{ops::Deref, sync::Arc};
 
 const BRANCH_CHAR: &'static str = "├──";
@@ -33,11 +34,15 @@ fn add_branch(node: &Node) -> String {
     let mut size = node.get_size().get().abbreviate_number();
     size.push('B');
     format!(
-        "{}{}{}{} ({})",
+        "{}{}{}{} {}",
         '\n',
         "\t".repeat(node.get_depth().get()),
         BRANCH_CHAR,
         node.get_name(),
-        size
+        format!(
+            "{}({} bytes)",
+            size,
+            thousends_seperator(node.get_size().get()).as_str()
+        )
     )
 }
