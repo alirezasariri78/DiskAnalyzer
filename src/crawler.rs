@@ -20,6 +20,7 @@ pub fn get_tree(args: &CommandArgs) -> Arc<Node> {
     root
 }
 
+#[cfg(target_os = "windows")]
 fn build_drive_tree(drives: Vec<String>, root: &Arc<Node>) {
     for d in drives {
         let mut path = d.to_owned().to_string();
@@ -29,14 +30,18 @@ fn build_drive_tree(drives: Vec<String>, root: &Arc<Node>) {
 }
 
 fn build_pc_tree(root: &Arc<Node>) {
-    let device_names = 'A'..'Z';
-    build_drive_tree(
-        device_names
-            .filter(|d| drive_exists(*d))
-            .map(|i| i.to_string())
-            .collect(),
-        root,
-    );
+    if cfg!(target_os = "windows") {
+        let device_names = 'A'..'Z';
+        build_drive_tree(
+            device_names
+                .filter(|d| drive_exists(*d))
+                .map(|i| i.to_string())
+                .collect(),
+            root,
+        );
+    } else if cfg!(target_os = "linux") {
+        build_path_tree("/".to_string(), root);
+    }
 }
 fn build_path_tree(path: String, root: &Arc<Node>) {
     start_build(path, root);
