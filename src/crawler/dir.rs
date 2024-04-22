@@ -14,7 +14,10 @@ pub fn drive_exists(drive: char) -> bool {
 }
 
 pub fn get_dir_lable(path: &PathBuf) -> &str {
-    path.to_str().unwrap().split("\\").last().unwrap()
+    if cfg!(target_os = "windows") {
+        return path.to_str().unwrap().split("\\").last().unwrap();
+    }
+    path.to_str().unwrap().split("/").last().unwrap()
 }
 
 pub fn get_dir_files_size(path: &PathBuf) -> u64 {
@@ -47,6 +50,7 @@ impl Display for DirError {
 impl Error for DirError {}
 
 #[cfg(test)]
+#[cfg(target_os = "windows")]
 mod tests {
 
     use super::*;
