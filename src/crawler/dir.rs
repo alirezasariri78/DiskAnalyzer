@@ -15,28 +15,29 @@ pub fn drive_exists(drive: char) -> bool {
 
 pub fn get_dir_lable(path: &PathBuf) -> &str {
     if cfg!(target_os = "windows") {
-        return path.to_str().unwrap().split("\\").last().unwrap();
+        return path.to_str().unwrap().split("\\").last().unwrap_or("");
     }
     path.to_str()
         .unwrap()
         .trim_end_matches("/")
         .split("/")
         .last()
-        .unwrap()
+        .unwrap_or("")
 }
 
 pub fn get_dir_files_size(path: &PathBuf) -> u64 {
+    let mut sum = 0;
     if let Ok(metadata_lis_res) = path.read_dir() {
-        let metadata_lis = metadata_lis_res
-            .enumerate()
-            .map(|item| item.1.unwrap().metadata());
-
-        let size = metadata_lis
-            .filter(|i| i.as_ref().unwrap().is_file())
-            .map(|i| i.unwrap().len())
-            .sum();
-
-        return size;
+        for dir_entry in metadata_lis_res.into_iter() {
+            if let Ok(entry) = dir_entry {
+                if let Ok(metadata) = entry.metadata() {
+                    if metadata.is_file() {
+                        sum += metadata.len()
+                    }
+                }
+            }
+        }
+        return sum;
     }
     0
 }
