@@ -35,9 +35,9 @@ Options:
 
 
 ## ToDO List :
-# [x] Add Depth For Folder Crawler
-# [ ] Add More Diagrams 
-# [ ] Add  Mac Support (Currently It Supports Windows And Linux)
-# [ ] Get Largest Files In Disk
-# [ ] Handle Files In Terminal (Add Move , etc)
-# [ ] List File Types (Audio , Video , etc)
+* [x] Add Depth For Folder Crawler
+* [ ] Add More Diagrams 
+* [ ] Add  Mac Support (Currently It Supports Windows And Linux)
+* [ ] Get Largest Files In Disk
+* [ ] Handle Files In Terminal (Add Move , etc)
+* [ ] List File Types (Audio , Video , etc)
