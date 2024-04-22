@@ -19,13 +19,15 @@ Check Folder Size And Create Diagram Based On Their Size
 
 ```
 
+get information about size of folders in each drive
+
+Usage: DiskAnalyzer.exe [OPTIONS]
+
 Options:
   -d, --drive <drives>     which drive to scan.
                            split with space.
                             scan all drives if not set
       --depth <drive>      how many level of inner directories should it scan
-  -t, --threads <threads>  how many threads should it use for scanning.
-                            defulat to 2
   -p, --path <path>        analyze give path
       --diagram <diagram>  Set Diagram Types : tree , bar
   -h, --help               Print help
