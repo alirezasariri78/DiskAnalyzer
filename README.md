@@ -6,12 +6,11 @@
 Check Folder Size And Create Diagram Based On Their Size
 
 
-![image description](https://github.com/alirezasariri78/DiskAnalyzer/blob/master/pics/file.png)
+![image description](https://github.com/alirezasariri78/DiskAnalyzer/blob/master/pics/debian_tree.png)
 
 
 
 ## Note:
-* This Project Has Not been Released.
 * Project May Not Work On Some Of System Folders Due To Lack Of Permissions (Access Denied)
 * This Project Works On Windows And Linux Only
 
