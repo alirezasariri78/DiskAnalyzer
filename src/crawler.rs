@@ -74,7 +74,7 @@ fn start_build(path: String, root: &Arc<Node>) {
     node.set_size(dir_size);
     if let Err(e) = build_tree(dir_path, &node) {
         match e {
-            DirError::AccessDenied(path) => (),
+            DirError::AccessDenied(_) => (),
             _ => println!("Something Wen Wrong..."),
         }
     }
@@ -105,7 +105,7 @@ fn build_tree(path: PathBuf, node: &Arc<Node>) -> Result<(), DirError> {
                 }
             }
         }
-    } else if let Err(e) = dir_lis_result {
+    } else if let Err(_) = dir_lis_result {
         return Err(DirError::AccessDenied(
             path.to_str().unwrap_or("").to_string(),
         ));

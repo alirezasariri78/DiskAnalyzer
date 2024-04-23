@@ -1,6 +1,6 @@
 [package]
 name = "DiskAnalyzer"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 repository="https://github.com/alirezasariri78/DiskAnalyzer"
 description="make diagram base on system folder size"
