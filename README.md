@@ -4,7 +4,7 @@
 
 Check Folder Size And Create Diagram Based On Their Size
 
-![image description](https://github.com/alirezasariri78/DiskAnalyzer/blob/master/pics/debian_tree.png)
+![image description](pics/debian_tree.png)
 
 ## Note:
 
