@@ -3,6 +3,9 @@ name = "DiskAnalyzer"
 version = "0.1.0"
 edition = "2021"
 repository="https://github.com/alirezasariri78/DiskAnalyzer"
+description="make diagram base on system folder size"
+license="MIT OR Apache-2.0"
+keywords = ["disk", "disk_analyzer","rust_disk_analyze","hard_drive","size"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
