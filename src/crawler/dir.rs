@@ -8,7 +8,6 @@ pub fn path_exists(path: &str) -> bool {
     Path::exists(Path::new(path))
 }
 
-#[cfg(target_os = "windows")]
 pub fn drive_exists(drive: char) -> bool {
     if cfg!(target_os = "windows") {
         let drive_name = drive.to_string() + ":";
