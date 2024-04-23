@@ -31,6 +31,11 @@ Options:
 
 ```
 
+## How To Install :
+```
+cargo install DiskAnalyzer
+```
+
 ## ToDO List :
 
 - [x] Add Depth For Folder Crawler
