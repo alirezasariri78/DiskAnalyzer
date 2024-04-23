@@ -22,9 +22,9 @@ Usage: DiskAnalyzer.exe [OPTIONS]
 Options:
   -d, --drive <drives>     which drive to scan.
                            split with space.
-                            scan all drives if not set
-      --depth <drive>      how many level of inner directories should it scan
-  -p, --path <path>        analyze give path
+                            scan all drives if not set :C D
+      --depth <depth>      how many level of inner directories should it scan: number
+  -p, --path <path>        analyze give path : "/Home" or "C:"
       --diagram <diagram>  Set Diagram Types : tree , bar
   -h, --help               Print help
   -V, --version            Print version
