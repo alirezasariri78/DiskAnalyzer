@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 use clap::*;
 
 const DEPTH_ID: &str = "drive";
@@ -59,19 +61,7 @@ impl CommandArgs {
 }
 
 pub fn get_args() -> CommandArgs {
-    let matched_result = command!()
-        .arg(
-            #[cfg(target_os = "linux")]
-            Arg::new(""),
-            #[cfg(target_os = "macos")]
-            Arg::new(""),
-            #[cfg(target_os = "windows")]
-            Arg::new(DRIVES_ID)
-                .short('d')
-                .long("drive")
-                .help("which drive to scan.\nsplit with space.\n scan all drives if not set")
-                .conflicts_with(PATH_ID),
-        )
+    let args = command!()
         .arg(
             Arg::new(DEPTH_ID)
                 .long("depth")
@@ -80,22 +70,45 @@ pub fn get_args() -> CommandArgs {
                 .help("how many level of inner directories should it scan"),
         )
         .arg(
+            Arg::new(DIAGRAM_ID)
+                .alias("Diagram")
+                .long("diagram")
+                .help("Set Diagram Types : tree , bar"),
+        );
+
+    let matched_result = handle_path_arg(args)
+        .about("get information about size of folders in each drive")
+        .get_matches();
+
+    CommandArgs::from_clap_args(matched_result)
+}
+
+fn handle_path_arg(args: Command) -> Command {
+    if cfg!(target_os = "macos|linux") {
+        return args.arg(
             Arg::new(PATH_ID)
                 .short('p')
                 .alias("pt")
                 .alias("pth")
                 .long("path")
-                .conflicts_with(DRIVES_ID)
                 .help("analyze give path"),
-        )
-        .arg(
-            Arg::new(DIAGRAM_ID)
-                .alias("Diagram")
-                .long("diagram")
-                .help("Set Diagram Types : tree , bar"),
-        )
-        .about("get information about size of folders in each drive")
-        .get_matches();
+        );
+    }
 
-    CommandArgs::from_clap_args(matched_result)
+    args.arg(
+        Arg::new(DRIVES_ID)
+            .short('d')
+            .long("drive")
+            .help("which drive to scan.\nsplit with space.\n scan all drives if not set")
+            .conflicts_with(PATH_ID),
+    )
+    .arg(
+        Arg::new(PATH_ID)
+            .short('p')
+            .alias("pt")
+            .alias("pth")
+            .long("path")
+            .conflicts_with(DRIVES_ID)
+            .help("analyze give path"),
+    )
 }
