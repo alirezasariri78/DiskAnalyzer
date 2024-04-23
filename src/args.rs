@@ -1,5 +1,3 @@
-use std::ops::Deref;
-
 use clap::*;
 
 const DEPTH_ID: &str = "drive";
@@ -8,8 +6,7 @@ const PATH_ID: &str = "path";
 const DIAGRAM_ID: &str = "diagram";
 #[derive(Debug, Clone)]
 pub enum DiagramType {
-    tree,
-    bar,
+    Tree,
 }
 
 #[derive(Debug, Clone)]
@@ -23,8 +20,7 @@ pub struct CommandArgs {
 impl DiagramType {
     fn from_string(input: &str) -> Self {
         match input {
-            "bar" => DiagramType::bar,
-            _ => DiagramType::tree,
+            _ => DiagramType::Tree,
         }
     }
 }

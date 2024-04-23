@@ -48,6 +48,7 @@ pub fn get_dir_files_size(path: &PathBuf) -> u64 {
 #[derive(Debug)]
 pub enum DirError {
     AccessDenied(String),
+    UnhandledException,
 }
 
 impl Display for DirError {
