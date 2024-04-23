@@ -61,6 +61,11 @@ impl CommandArgs {
 pub fn get_args() -> CommandArgs {
     let matched_result = command!()
         .arg(
+            #[cfg(target_os = "linux")]
+            Arg::new(""),
+            #[cfg(target_os = "macos")]
+            Arg::new(""),
+            #[cfg(target_os = "windows")]
             Arg::new(DRIVES_ID)
                 .short('d')
                 .long("drive")
