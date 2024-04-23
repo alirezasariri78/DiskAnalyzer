@@ -10,3 +10,14 @@ pub fn thousends_seperator(i: u64) -> String {
     }
     s
 }
+
+mod tests {
+
+    #[test]
+    fn thousends_seperator_test() {
+        assert_eq!("1,000,000", super::thousends_seperator(1_000_000));
+        assert_eq!("1", super::thousends_seperator(1));
+        assert_eq!("1", super::thousends_seperator(001));
+        assert_eq!("1", super::thousends_seperator(00001));
+    }
+}

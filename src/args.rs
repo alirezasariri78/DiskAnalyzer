@@ -31,15 +31,18 @@ impl DiagramType {
 
 impl CommandArgs {
     fn from_clap_args(args: ArgMatches) -> CommandArgs {
-        let d = match args.get_one::<String>(DRIVES_ID) {
-            Some(drive) => Some(
-                drive
-                    .split(' ')
-                    .map(|x| x.to_string())
-                    .collect::<Vec<String>>(),
-            ),
-            None => None,
-        };
+        let mut d: Option<Vec<String>> = None;
+        if cfg!(target_os = "windpws") {
+            d = match args.get_one::<String>(DRIVES_ID) {
+                Some(drive) => Some(
+                    drive
+                        .split(' ')
+                        .map(|x| x.to_string())
+                        .collect::<Vec<String>>(),
+                ),
+                None => None,
+            };
+        }
         let path_arg = args.get_one::<String>(PATH_ID);
         let path = match path_arg {
             Some(p) => Some(p.to_string()),
