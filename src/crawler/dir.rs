@@ -10,8 +10,11 @@ pub fn path_exists(path: &str) -> bool {
 
 #[cfg(target_os = "windows")]
 pub fn drive_exists(drive: char) -> bool {
-    let drive_name = drive.to_string() + ":";
-    path_exists(&drive_name)
+    if cfg!(target_os = "windows") {
+        let drive_name = drive.to_string() + ":";
+        return path_exists(&drive_name);
+    }
+    false
 }
 
 pub fn get_dir_lable(path: &PathBuf) -> &str {
