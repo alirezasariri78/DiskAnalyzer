@@ -58,4 +58,18 @@ impl Node {
     pub fn get_childes(&self) -> &RefCell<Vec<Arc<Node>>> {
         &self.childrens
     }
+
+    pub fn is_last_child(&self) -> bool {
+        if let Some(parent) = &self.parent.borrow().upgrade() {
+            let childes = parent.childrens.borrow();
+            return childes.iter().position(|c| **c == *self).unwrap_or(0) == childes.len() - 1;
+        }
+        false
+    }
+}
+
+impl PartialEq for Node {
+    fn eq(&self, other: &Self) -> bool {
+        self.path.to_str().unwrap_or("") == other.path.to_str().unwrap_or("")
+    }
 }
