@@ -37,7 +37,7 @@ fn add_branch(node: &Node) -> String {
     }
 
     let mut size = node.get_size().get().abbreviate_number();
-    size.push('B');
+    size.push_str("iB");
     format!(
         "{}{}{}{} {}",
         '\n',

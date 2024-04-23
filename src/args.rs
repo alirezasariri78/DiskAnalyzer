@@ -28,7 +28,7 @@ impl DiagramType {
 impl CommandArgs {
     fn from_clap_args(args: ArgMatches) -> CommandArgs {
         let mut d: Option<Vec<String>> = None;
-        if cfg!(target_os = "windpws") {
+        if cfg!(target_os = "windows") {
             d = match args.get_one::<String>(DRIVES_ID) {
                 Some(drive) => Some(
                     drive
