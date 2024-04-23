@@ -5,8 +5,8 @@ use crate::crawler::Node;
 use crate::util::*;
 use std::{ops::Deref, sync::Arc};
 
-const BRANCH_CHAR: &'static str = "├──";
-const NODE_CHAR: &'static str = "└──";
+const MIDDLE_CHAR: &'static str = "├──";
+const END_CHAR: &'static str = "└──";
 
 pub fn create_tree_diagram(tree: &Arc<Node>, args: &CommandArgs) -> String {
     let mut result = String::new();
@@ -18,7 +18,7 @@ fn crawl_tree(tree: &Arc<Node>, args: &CommandArgs, result: &mut String) {
     if tree.get_depth().get() == args.depth && args.depth != 0 {
         return;
     }
-    if tree.get_name() == "root" {
+    if tree.get_depth().get() == 0 {
         result.push_str(add_branch(tree).as_str());
     }
     let childrens = tree.get_childes().borrow();
@@ -31,13 +31,18 @@ fn crawl_tree(tree: &Arc<Node>, args: &CommandArgs, result: &mut String) {
 }
 
 fn add_branch(node: &Node) -> String {
+    let mut branch_char = MIDDLE_CHAR;
+    if node.is_last_child() {
+        branch_char = END_CHAR;
+    }
+
     let mut size = node.get_size().get().abbreviate_number();
     size.push('B');
     format!(
         "{}{}{}{} {}",
         '\n',
         "\t".repeat(node.get_depth().get()),
-        BRANCH_CHAR,
+        branch_char,
         node.get_name(),
         format!(
             "{}({} bytes)",

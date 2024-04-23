@@ -11,9 +11,21 @@ pub fn get_tree(args: &CommandArgs) -> Arc<Node> {
     let root = Arc::new(Node::new(PathBuf::from("root"), String::from("root"), 0, 0));
 
     if args.drive.is_some() {
-        build_drive_tree(args.drive.to_owned().unwrap(), &root);
+        match args.drive.to_owned() {
+            Some(drive) => {
+                build_drive_tree(drive, &root);
+                return root;
+            }
+            None => return root,
+        }
     } else if args.path.is_some() {
-        build_path_tree(args.path.to_owned().unwrap(), &root);
+        match args.path.to_owned() {
+            Some(path) => {
+                build_path_tree(path, &root);
+                return root;
+            }
+            None => return root,
+        }
     } else {
         build_pc_tree(&root);
     }
@@ -62,7 +74,7 @@ fn start_build(path: String, root: &Arc<Node>) {
     node.set_size(dir_size);
     if let Err(e) = build_tree(dir_path, &node) {
         match e {
-            DirError::AccessDenied(path) => println!("Access To Path {path} Denied "),
+            DirError::AccessDenied(path) => (),
             _ => println!("Something Wen Wrong..."),
         }
     }
@@ -94,7 +106,6 @@ fn build_tree(path: PathBuf, node: &Arc<Node>) -> Result<(), DirError> {
             }
         }
     } else if let Err(e) = dir_lis_result {
-        println!("Exception in path :{:#?} :{:#?}", &path, e);
         return Err(DirError::AccessDenied(
             path.to_str().unwrap_or("").to_string(),
         ));
