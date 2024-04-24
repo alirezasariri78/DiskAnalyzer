@@ -11,10 +11,9 @@ Check Folder Size And Create Diagram Based On Their Size
 
 - Project May Not Work On Some Of System Folders Due To Lack Of Permissions (Access Denied)
 - This Project Works On Windows And Linux Only
+- Args Are Case-Insensetive
 
 ## How To Use :
-
-
 
 ```
 
@@ -24,10 +23,10 @@ Usage: diska [OPTIONS]
 
 Options:
       --depth <depth>      how many level of inner directories should it scan
-      --diagram <diagram>  Set Diagram Types : tree , bar
+      --diagram <diagram>  Set Diagram Types : tree , table
   -s, --sort <sort>        Sort Folders Based On Given Value : size , name
-                           
-      --st <st>            Can Use By sort 
+
+      --st <st>            Can Use By sort
                            Sort Folders:  Desc or Asc
   -p, --path <path>        analyze give path
   -h, --help               Print help
@@ -37,6 +36,7 @@ Options:
 ```
 
 ## How To Install :
+
 ```
 cargo install DiskAnalyzer
 ```

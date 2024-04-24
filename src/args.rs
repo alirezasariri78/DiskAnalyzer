@@ -164,7 +164,7 @@ pub fn get_args() -> CommandArgs {
             Arg::new(DIAGRAM_ID)
                 .ignore_case(true)
                 .long("diagram")
-                .help("Set Diagram Types : tree , bar"),
+                .help("Set Diagram Types : tree , table"),
         )
         .arg(
             Arg::new(SORT_ID)
