@@ -1,26 +1,46 @@
 # DiskAnalyzer
 
-
-
 ## Description
+
 Check Folder Size And Create Diagram Based On Their Size
 
-
-
-![image description](https://github.com/alirezasariri78/DiskAnalyzer/blob/master/pics/tree.png)
-
-
+![image description](pics/debian_tree.png)
 
 ## Note:
-# This Project Has Not been Released.
-# Project May Not Work On Some Of System Folders Due To Lack Of Permissions (Access Denied)
-# This Project Works On Windows Yet (Other Os Will Add Later)
+
+- Project May Not Work On Some Of System Folders Due To Lack Of Permissions (Access Denied)
+- This Project Works On Windows And Linux Only
+
+## How To Use :
+
+```
+
+get information about size of folders in each drive
+
+Usage: DiskAnalyzer.exe [OPTIONS]
+
+Options:
+  -d, --drive <drives>     which drive to scan.
+                           split with space.
+                            scan all drives if not set :C D
+      --depth <depth>      how many level of inner directories should it scan: number
+  -p, --path <path>        analyze give path : "/Home" or "C:"
+      --diagram <diagram>  Set Diagram Types : tree , bar
+  -h, --help               Print help
+  -V, --version            Print version
+
+```
+
+## How To Install :
+```
+cargo install DiskAnalyzer
+```
 
 ## ToDO List :
-# [x] Add Depth For Folder Crawler
-# [ ] Add More Diagrams 
-# [ ] Add Linux And Mac Support (Currently It Supports Windows)
-# [ ] Handle Crawling Using Thread Pool
-# [ ] Get Largest Files In Disk
-# [ ] Handle Files In Terminal (Add Move , etc)
-# [ ] List File Types (Audio , Video , etc)
+
+- [x] Add Depth For Folder Crawler
+- [ ] Add More Diagrams
+- [ ] Add Mac Support (Currently It Supports Windows And Linux)
+- [ ] Get Largest Files In Disk
+- [ ] Handle Files In Terminal (Add Move , etc)
+- [ ] List File Types (Audio , Video , etc)
