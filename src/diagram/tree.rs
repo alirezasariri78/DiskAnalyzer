@@ -5,9 +5,6 @@ use crate::crawler::Node;
 use crate::util::*;
 use std::{ops::Deref, sync::Arc};
 
-const MIDDLE_CHAR: &'static str = "├──";
-const END_CHAR: &'static str = "└──";
-
 pub fn create_tree_diagram(tree: &Arc<Node>, args: &CommandArgs) -> String {
     let mut result = String::new();
     crawl_tree(tree, args, &mut result);

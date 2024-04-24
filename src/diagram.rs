@@ -1,5 +1,8 @@
+use cli_table::print_stdout;
+
 use crate::crawler::Node;
 use std::sync::Arc;
+mod table;
 mod tree;
 use crate::args::{CommandArgs, DiagramType};
 pub fn show_diagram(root: &Arc<Node>, arguments: &CommandArgs) {
@@ -7,6 +10,11 @@ pub fn show_diagram(root: &Arc<Node>, arguments: &CommandArgs) {
         DiagramType::Tree => {
             let str = tree::create_tree_diagram(root, arguments);
             println!("{str}");
+        }
+        DiagramType::Table => {
+            let table = table::create_table_diagram(root, arguments);
+            print_stdout(table)
+                .unwrap_or_else(|e| println!("Failed To Write Table:{}", e.to_string()));
         }
     };
 }

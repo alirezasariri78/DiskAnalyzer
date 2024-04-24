@@ -1,3 +1,6 @@
+pub const MIDDLE_CHAR: &'static str = "├──";
+pub const END_CHAR: &'static str = "└──";
+
 pub fn thousends_seperator(i: u64) -> String {
     let mut s = String::new();
     let i_str = i.to_string();
