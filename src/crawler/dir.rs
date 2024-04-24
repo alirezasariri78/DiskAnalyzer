@@ -18,10 +18,15 @@ pub fn drive_exists(drive: char) -> bool {
 
 pub fn get_dir_lable(path: &PathBuf) -> &str {
     if cfg!(target_os = "windows") {
-        return path.to_str().unwrap().split("\\").last().unwrap_or("");
+        return path
+            .to_str()
+            .unwrap_or("")
+            .split("\\")
+            .last()
+            .unwrap_or(path.to_str().unwrap_or(""));
     }
     path.to_str()
-        .unwrap()
+        .unwrap_or("")
         .trim_end_matches("/")
         .split("/")
         .last()
@@ -77,6 +82,23 @@ mod tests {
     #[test]
     fn path_exists_test() {
         assert_eq!(true, path_exists("C:\\Users"));
+    }
+
+    #[test]
+    fn path_not_exists_test() {
+        assert_eq!(false, path_exists("#C:\\Users"));
+    }
+}
+
+#[cfg(test)]
+#[cfg(target_os = "linux")]
+mod linux_tests {
+
+    use super::*;
+
+    #[test]
+    fn path_exists_test() {
+        assert!(path_exists("/"));
     }
 
     #[test]
