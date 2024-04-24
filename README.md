@@ -5,6 +5,7 @@
 Check Folder Size And Create Diagram Based On Their Size
 
 ![image description](pics/debian_tree.png)
+![image description](pics/table_debian.png)
 
 ## Note:
 
@@ -13,21 +14,25 @@ Check Folder Size And Create Diagram Based On Their Size
 
 ## How To Use :
 
+
+
 ```
 
 get information about size of folders in each drive
 
-Usage: DiskAnalyzer.exe [OPTIONS]
+Usage: diska [OPTIONS]
 
 Options:
-  -d, --drive <drives>     which drive to scan.
-                           split with space.
-                            scan all drives if not set :C D
-      --depth <depth>      how many level of inner directories should it scan: number
-  -p, --path <path>        analyze give path : "/Home" or "C:"
+      --depth <depth>      how many level of inner directories should it scan
       --diagram <diagram>  Set Diagram Types : tree , bar
+  -s, --sort <sort>        Sort Folders Based On Given Value : size , name
+                           
+      --st <st>            Can Use By sort 
+                           Sort Folders:  Desc or Asc
+  -p, --path <path>        analyze give path
   -h, --help               Print help
   -V, --version            Print version
+
 
 ```
 
