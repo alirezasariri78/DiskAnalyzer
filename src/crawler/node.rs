@@ -34,9 +34,6 @@ impl Node {
     pub fn set_parent(&self, node: &Arc<Node>) {
         *self.parent.borrow_mut() = Arc::downgrade(node);
     }
-    pub fn get_path(&self) -> &PathBuf {
-        &self.path
-    }
     pub fn get_name(&self) -> &String {
         &self.name
     }
