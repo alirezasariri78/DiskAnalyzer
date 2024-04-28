@@ -38,6 +38,8 @@ Options:
 ## How To Install :
 
 ```
+Download And Install Cargo (Rust Package Manager)
+Run Following Command in Terminal
 cargo install DiskAnalyzer
 ```
 
@@ -46,7 +48,6 @@ cargo install DiskAnalyzer
 - [x] Add Depth For Folder Crawler
 - [x] Add More Diagrams
 - [ ] Add Mac Support (Currently It Supports Windows And Linux)
-- [ ] Get Largest Files In Disk
 - [x] Implement Sorting
 - [ ] Handle Files In Terminal (Add Move , etc)
 - [ ] List File Types (Audio , Video , etc)
