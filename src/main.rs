@@ -9,7 +9,4 @@ fn main() {
     let arguments = arg::get_args();
     let tree = crawler::get_tree(&arguments);
     show_diagram(&tree, &arguments);
-
-    let mut read = String::new();
-    _ = std::io::stdin().read_line(&mut read);
 }
