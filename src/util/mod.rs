@@ -1,6 +1,6 @@
 
 
-pub fn thousends_seperator(i: u64) -> String {
+pub(crate) fn thousends_seperator(i: u64) -> String {
     let mut s = String::new();
     let i_str = i.to_string();
     let a = i_str.chars().rev().enumerate();

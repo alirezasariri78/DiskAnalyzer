@@ -1,9 +1,10 @@
 use rs_abbreviation_number::NumericAbbreviate;
-use colored::Colorize;
+use colored::{Color, Colorize};
 use crate::args::CommandArgs;
 use crate::crawler::Node;
 use crate::util::*;
-use std::{ops::Deref, sync::Arc};
+use std::{ops::Deref, str::FromStr, sync::Arc};
+use crate::diagram::shared::*;
 
 pub const MIDDLE_CHAR: &'static str = "├──";
 pub const END_CHAR: &'static str = "└──";
@@ -49,19 +50,15 @@ fn add_branch(node: &Node) -> String {
 }
 
 fn get_branch_char(node:&Node)->String{
-    const GREEN_SIZE_BYTES:u64=1_024_000_000;
-    const YELLOW_SIZE_BYTES:u64=GREEN_SIZE_BYTES*10;
-    const YELLOW_STAR:u64=GREEN_SIZE_BYTES+1; 
- 
     let mut branch_char = MIDDLE_CHAR;
     if node.is_last_child() {
         branch_char = END_CHAR;
     }
-    match node.get_size().get() {
-        0..=GREEN_SIZE_BYTES=>branch_char.green().to_string(),
-        YELLOW_STAR..=YELLOW_SIZE_BYTES=>branch_char.yellow().to_string(),
-        _=>branch_char.red().to_string(),
-    }
+    let color_str=get_color_from_size(node.get_size().get());
+    let colored= Color::from_str(color_str).unwrap_or(Color::White);
+    branch_char.color(colored).to_string()
 }
 
-
+mod tests{
+    
+}
