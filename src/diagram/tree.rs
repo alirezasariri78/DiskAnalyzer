@@ -59,6 +59,44 @@ fn get_branch_char(node:&Node)->String{
     branch_char.color(colored).to_string()
 }
 
+
+
 mod tests{
     
+    use std::path::PathBuf;
+
+    use super::*;
+    #[test]
+    fn get_branch_char_heavy_size_test(){
+        let node=Node::new(PathBuf::from(""), "root".to_string(), 1_000_000_000_000, 0);
+        assert_eq!("\u{1b}[31m├──\u{1b}[0m",get_branch_char(&node));
+    }
+    #[test]
+    fn get_branch_char_medium_size_test(){
+        let node=Node::new(PathBuf::from(""), "root".to_string(), 8_024_000_000, 0);
+        assert_eq!("\u{1b}[33m├──\u{1b}[0m",get_branch_char(&node));
+    }
+
+
+    #[test]
+    fn get_branch_char_small_size_test(){
+        let node=Node::new(PathBuf::from(""), "root".to_string(), 5, 0);
+        assert_eq!("\u{1b}[32m├──\u{1b}[0m",get_branch_char(&node));
+    }
+
+    #[test]
+    fn add_branch_root_test(){
+        let node=Node::new(PathBuf::from(""), "root".to_string(), 5000, 0);
+        let input=add_branch(&node);
+        let expect="\n\u{1b}[32m├──\u{1b}[0mroot 5KiB(5,000 bytes)".to_string();
+        assert_eq!(expect,input);
+    }
+
+    #[test]
+    fn add_branch_child_test(){
+        let child=Node::new(PathBuf::from(""), "child".to_string(), 8_024_000_000, 1);
+        let input=add_branch(&child);
+        let expect="\n\t\u{1b}[33m├──\u{1b}[0mchild 8.02GiB(8,024,000,000 bytes)".to_string();
+        assert_eq!(expect,input);
+    }
 }
