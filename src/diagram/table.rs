@@ -32,10 +32,15 @@ fn export_to_table(nodes: Vec<Arc<Node>>, args: &CommandArgs) -> Vec<Vec<CellStr
             size.abbreviate_number(),
             thousends_seperator(size)
         );
-        let color=Color::from_str(get_color_from_size(size)).unwrap_or(Color::White);
+        let color = Color::from_str(get_color_from_size(size)).unwrap_or(Color::White);
         result.push(vec![
-            name.cell().foreground_color(Some(color)).justify(Justify::Center),
-            formated_size.cell().foreground_color(Some(color)).justify(Justify::Center),
+            name.cell()
+                .foreground_color(Some(color))
+                .justify(Justify::Center),
+            formated_size
+                .cell()
+                .foreground_color(Some(color))
+                .justify(Justify::Center),
         ]);
     }
     result
