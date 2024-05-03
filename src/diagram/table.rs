@@ -3,9 +3,13 @@ use crate::{
     args::{CommandArgs, SortType},
     util::thousends_seperator,
 };
+use cli_table::Color;
 use cli_table::{format::Justify, Cell, CellStruct, Style, Table, TableStruct};
 use rs_abbreviation_number::NumericAbbreviate;
+use std::str::FromStr;
 use std::{ops::Deref, sync::Arc};
+
+use super::shared::get_color_from_size;
 
 pub fn create_table_diagram(tree: &Arc<Node>, args: &CommandArgs) -> TableStruct {
     let mut nodes: Vec<Arc<Node>> = Vec::new();
@@ -23,14 +27,15 @@ fn export_to_table(nodes: Vec<Arc<Node>>, args: &CommandArgs) -> Vec<Vec<CellStr
     let mut result: Vec<Vec<CellStruct>> = Vec::new();
     let sorted_data = sort_data(&nodes, args.sort.clone());
     for (name, size) in sorted_data {
-        let size = format!(
+        let formated_size = format!(
             "{}iB ({} bytes)",
             size.abbreviate_number(),
             thousends_seperator(size)
         );
+        let color=Color::from_str(get_color_from_size(size)).unwrap_or(Color::White);
         result.push(vec![
-            name.cell().justify(Justify::Center),
-            size.cell().justify(Justify::Center),
+            name.cell().foreground_color(Some(color)).justify(Justify::Center),
+            formated_size.cell().foreground_color(Some(color)).justify(Justify::Center),
         ]);
     }
     result

@@ -1,6 +1,6 @@
 [package]
 name = "DiskAnalyzer"
-version = "0.2.2"
+version = "0.2.3"
 edition = "2021"
 repository="https://github.com/alirezasariri78/DiskAnalyzer"
 description="make diagram base on system folder size"
@@ -17,3 +17,4 @@ path = "src/main.rs"
 clap={version="4.5.4",features=["cargo"]}
 rs-abbreviation-number = "0.2.1"
 cli-table = "0.4"
+colored = "2.1.0"
