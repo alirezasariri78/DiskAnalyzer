@@ -2,7 +2,8 @@
 
 ## Description
 
-Check Folder Size And Create Diagram Based On Their Size
+Check Folder Size And Create Diagram Based On Their Size 
+And Set Color (Green For Less Then 1 Giga bytes , Yellow For 1 To 10 Giga bytes And Red For More)
 
 ![image description](pics/win_tree.png)
 ![image description](pics/win_table.png)
