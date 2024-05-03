@@ -4,8 +4,8 @@
 
 Check Folder Size And Create Diagram Based On Their Size
 
-![image description](pics/debian_tree.png)
-![image description](pics/table_debian.png)
+![image description](pics/win_tree.png)
+![image description](pics/win_table.png)
 
 ## Note:
 
