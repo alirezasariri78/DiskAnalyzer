@@ -64,12 +64,11 @@ fn start_build(path: String, root: &Arc<Node>) {
         dir_path.clone(),
         get_dir_lable(&dir_path).to_string(),
         0,
-        Arc::clone(root).get_depth().get().to_owned() + 1,
+        Arc::clone(root).get_depth().get() + 1,
     ));
     root.add_child(&node);
     node.set_parent(&root);
-    let dir_size = get_dir_files_size(&dir_path);
-    node.add_to_size(dir_size);
+    node.add_to_size(get_dir_files_size(&dir_path));
     if let Err(e) = build_tree(dir_path, &node) {
         match e {
             DirError::AccessDenied(path) => println!("Access To Path {} Denied.", path),
@@ -81,23 +80,21 @@ fn start_build(path: String, root: &Arc<Node>) {
 fn build_tree(path: PathBuf, node: &Arc<Node>) -> Result<(), DirError> {
     let dir_lis = path.read_dir()?;
     for dir in dir_lis {
-        if let Ok(entry) = dir {
-            if let Ok(metadata) = entry.metadata() {
-                if metadata.is_dir() {
-                    let new_node = Arc::new(Node::new(
-                        entry.path().clone(),
-                        get_dir_lable(&entry.path()).to_string(),
-                        0,
-                        Arc::clone(node).get_depth().get().to_owned() + 1,
-                    ));
-                    node.add_child(&new_node);
-                    new_node.set_parent(&node);
-                    let dir_size = get_dir_files_size(&entry.path());
-                    new_node.add_to_size(dir_size);
-                    if let Err(e) = build_tree(entry.path(), &new_node) {
-                        println!("{:#?}", e)
-                    }
-                }
+        let entry = dir?;
+        let metadata = entry.metadata()?;
+        if metadata.is_dir() {
+            let new_node = Arc::new(Node::new(
+                entry.path().clone(),
+                get_dir_lable(&entry.path()).to_string(),
+                0,
+                Arc::clone(node).get_depth().get() + 1,
+            ));
+            node.add_child(&new_node);
+            new_node.set_parent(&node);
+
+            new_node.add_to_size(get_dir_files_size(&entry.path()));
+            if let Err(e) = build_tree(entry.path(), &new_node) {
+                println!("{:#?}", e)
             }
         }
     }
