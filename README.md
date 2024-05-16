@@ -29,7 +29,7 @@ Options:
 
       --st <st>            Can Use By sort
                            Sort Folders:  Desc or Asc
-  -p, --path <path>        analyze give path
+  -p, --path <path>        analyze give path (default is current directory)
   -h, --help               Print help
   -V, --version            Print version
 

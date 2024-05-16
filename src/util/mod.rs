@@ -1,5 +1,3 @@
-
-
 pub(crate) fn thousends_seperator(i: u64) -> String {
     let mut s = String::new();
     let i_str = i.to_string();
@@ -12,7 +10,6 @@ pub(crate) fn thousends_seperator(i: u64) -> String {
     }
     s
 }
-
 mod tests {
 
     #[test]

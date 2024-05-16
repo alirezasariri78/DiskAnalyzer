@@ -1,4 +1,5 @@
 use std::cell::{Cell, RefCell};
+use std::ops::Deref;
 use std::path::PathBuf;
 use std::sync::{Arc, Weak};
 
@@ -76,6 +77,7 @@ mod tests {
 
     use super::Node;
 
+    #[allow(dead_code)]
     fn get_last_child() -> Arc<Node> {
         let root = Arc::new(Node::new(PathBuf::new(), "r".to_string(), 0, 0));
         let last = Arc::new(Node::new(PathBuf::from("/c4"), "c4".to_string(), 4, 1));
@@ -87,7 +89,7 @@ mod tests {
         childes.push(Arc::clone(&last));
         for c in &childes {
             c.set_parent(&root);
-            root.add_child(&c);
+            root.add_child(c);
         }
         last
     }
@@ -150,7 +152,7 @@ mod tests {
         ];
         for c in &childes {
             c.set_parent(&root);
-            root.add_child(&c);
+            root.add_child(c);
         }
         assert_eq!(childes, *root.get_childes().borrow());
     }
