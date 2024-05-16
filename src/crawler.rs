@@ -4,6 +4,7 @@ mod node;
 use crate::args::CommandArgs;
 use dir::*;
 pub use node::Node;
+use std::env;
 use std::io::{self, ErrorKind};
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -28,7 +29,7 @@ pub fn get_tree(args: &CommandArgs) -> Arc<Node> {
             None => return root,
         }
     } else {
-        build_pc_tree(&root);
+        build_current_dir_tree(&root);
     }
     root
 }
@@ -43,19 +44,11 @@ fn build_drive_tree(drives: Vec<String>, root: &Arc<Node>) {
     }
 }
 
-fn build_pc_tree(root: &Arc<Node>) {
-    if cfg!(target_os = "windows") {
-        let device_names = 'A'..'Z';
-        build_drive_tree(
-            device_names
-                .filter(|d| drive_exists(*d))
-                .map(|i| i.to_string())
-                .collect(),
-            root,
-        );
-    } else if cfg!(target_os = "linux") {
-        start_build("/".to_string(), root);
-    }
+fn build_current_dir_tree(root: &Arc<Node>) {
+    start_build(
+        env::current_dir().unwrap().to_str().unwrap().to_string(),
+        root,
+    );
 }
 
 fn start_build(path: String, root: &Arc<Node>) {

@@ -210,7 +210,7 @@ fn handle_windows_path_arg(args: Command) -> Command {
             .alias("pth")
             .long("path")
             .conflicts_with(DRIVES_ID)
-            .help("analyze give path"),
+            .help("analyze give path (default is current directory)"),
     )
 }
 
