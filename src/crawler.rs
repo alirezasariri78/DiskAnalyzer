@@ -37,6 +37,9 @@ pub fn get_tree(args: &CommandArgs) -> Arc<Node> {
 fn build_drive_tree(drives: Vec<String>, root: &Arc<Node>) {
     if cfg!(target_os = "windows") {
         for d in drives {
+            if !drive_exists(d.clone()) {
+                continue;
+            }
             let mut path = d.to_owned().to_string();
             path.push_str(":\\");
             start_build(path, root);

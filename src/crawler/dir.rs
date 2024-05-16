@@ -8,9 +8,9 @@ pub fn path_exists(path: &str) -> bool {
     Path::exists(Path::new(path))
 }
 
-pub fn drive_exists(drive: char) -> bool {
+pub fn drive_exists(drive: String) -> bool {
     if cfg!(target_os = "windows") {
-        let drive_name = drive.to_string() + ":";
+        let drive_name = drive + ":";
         return path_exists(&drive_name);
     }
     false
@@ -71,12 +71,12 @@ mod tests {
 
     #[test]
     fn system_drive_exists_test() {
-        assert_eq!(true, drive_exists('C'))
+        assert_eq!(true, drive_exists("C".to_string()))
     }
 
     #[test]
     fn ilegal_drive_test() {
-        assert_eq!(false, drive_exists('#'));
+        assert_eq!(false, drive_exists("#".to_string()));
     }
 
     #[test]
