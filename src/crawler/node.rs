@@ -1,7 +1,16 @@
 use std::cell::{Cell, RefCell};
-use std::ops::Deref;
 use std::path::PathBuf;
 use std::sync::{Arc, Weak};
+use std::fmt;
+
+#[derive(Debug)]
+pub enum NodeType{
+    Directory,
+    Audio,
+    Image,
+    Video,
+    File
+}
 
 #[derive(Debug)]
 pub struct Node {
@@ -11,10 +20,11 @@ pub struct Node {
     parent: RefCell<Weak<Node>>,
     path: PathBuf,
     childrens: RefCell<Vec<Arc<Node>>>,
+    node_type:NodeType
 }
 
 impl Node {
-    pub fn new(path: PathBuf, name: String, size: u64, depth: usize) -> Self {
+    pub fn new(path: PathBuf, name: String, size: u64, depth: usize,node_type:NodeType) -> Self {
         Self {
             size: Cell::new(size),
             childrens: RefCell::new(Vec::new()),
@@ -22,6 +32,7 @@ impl Node {
             depth: Cell::new(depth),
             name,
             path,
+            node_type
         }
     }
 
@@ -41,6 +52,9 @@ impl Node {
     pub fn get_depth(&self) -> &Cell<usize> {
         &self.depth
     }
+    pub fn get_node_type(&self) -> &NodeType {
+        &self.node_type
+    }
 
     pub fn add_to_size(&self, size: u64) {
         let parent = &self.parent;
@@ -56,7 +70,6 @@ impl Node {
     pub fn get_childes(&self) -> &RefCell<Vec<Arc<Node>>> {
         &self.childrens
     }
-
     pub fn is_last_child(&self) -> bool {
         if let Some(parent) = &self.parent.borrow().upgrade() {
             let childes = parent.childrens.borrow();
@@ -72,6 +85,20 @@ impl PartialEq for Node {
     }
 }
 
+impl fmt::Display for NodeType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:?}", self)
+    }
+}
+
+impl  PartialEq for NodeType {
+    fn eq(&self, other: &Self) -> bool {
+        let first= &self.to_string();
+        let second=&other.to_string();
+        first==second
+    }
+}
+
 mod tests {
     use std::{path::PathBuf, sync::Arc};
 
@@ -79,12 +106,12 @@ mod tests {
 
     #[allow(dead_code)]
     fn get_last_child() -> Arc<Node> {
-        let root = Arc::new(Node::new(PathBuf::new(), "r".to_string(), 0, 0));
-        let last = Arc::new(Node::new(PathBuf::from("/c4"), "c4".to_string(), 4, 1));
+        let root = Arc::new(Node::new(PathBuf::new(), "r".to_string(), 0, 0,super::NodeType::Directory));
+        let last = Arc::new(Node::new(PathBuf::from("/c4"), "c4".to_string(), 4, 1,super::NodeType::Directory));
         let mut childes = vec![
-            Arc::new(Node::new(PathBuf::from("/c1"), "c1".to_string(), 1, 1)),
-            Arc::new(Node::new(PathBuf::from("/c2"), "c2".to_string(), 2, 1)),
-            Arc::new(Node::new(PathBuf::from("/c3"), "c3".to_string(), 3, 1)),
+            Arc::new(Node::new(PathBuf::from("/c1"), "c1".to_string(), 1, 1,super::NodeType::Directory)),
+            Arc::new(Node::new(PathBuf::from("/c2"), "c2".to_string(), 2, 1,super::NodeType::Directory)),
+            Arc::new(Node::new(PathBuf::from("/c3"), "c3".to_string(), 3, 1,super::NodeType::Directory)),
         ];
         childes.push(Arc::clone(&last));
         for c in &childes {
@@ -96,12 +123,12 @@ mod tests {
 
     #[test]
     fn is_last_child_test() {
-        let root = Arc::new(Node::new(PathBuf::new(), "r".to_string(), 0, 0));
-        let last = Arc::new(Node::new(PathBuf::from("/c4"), "c4".to_string(), 4, 1));
+        let root = Arc::new(Node::new(PathBuf::new(), "r".to_string(), 0, 0,super::NodeType::Directory));
+        let last = Arc::new(Node::new(PathBuf::from("/c4"), "c4".to_string(), 4, 1,super::NodeType::Directory));
         let mut childes = vec![
-            Arc::new(Node::new(PathBuf::from("/c1"), "c1".to_string(), 1, 1)),
-            Arc::new(Node::new(PathBuf::from("/c2"), "c2".to_string(), 2, 1)),
-            Arc::new(Node::new(PathBuf::from("/c3"), "c3".to_string(), 3, 1)),
+            Arc::new(Node::new(PathBuf::from("/c1"), "c1".to_string(), 1, 1,super::NodeType::Directory)),
+            Arc::new(Node::new(PathBuf::from("/c2"), "c2".to_string(), 2, 1,super::NodeType::Directory)),
+            Arc::new(Node::new(PathBuf::from("/c3"), "c3".to_string(), 3, 1,super::NodeType::Directory)),
         ];
         childes.push(Arc::clone(&last));
         for c in &childes {
@@ -110,7 +137,7 @@ mod tests {
         }
         assert!(last.is_last_child());
 
-        let new_last = Arc::new(Node::new(PathBuf::from("/c5"), "c5".to_string(), 5, 1));
+        let new_last = Arc::new(Node::new(PathBuf::from("/c5"), "c5".to_string(), 5, 1,super::NodeType::Directory));
         new_last.set_parent(&root);
         root.add_child(&new_last);
         assert_eq!(false, last.is_last_child());
@@ -144,11 +171,11 @@ mod tests {
 
     #[test]
     fn get_childes_test() {
-        let root = Arc::new(Node::new(PathBuf::new(), "r".to_string(), 0, 0));
+        let root = Arc::new(Node::new(PathBuf::new(), "r".to_string(), 0, 0,super::NodeType::Directory));
         let childes = vec![
-            Arc::new(Node::new(PathBuf::from("/c1"), "c1".to_string(), 1, 1)),
-            Arc::new(Node::new(PathBuf::from("/c2"), "c2".to_string(), 2, 1)),
-            Arc::new(Node::new(PathBuf::from("/c3"), "c3".to_string(), 3, 1)),
+            Arc::new(Node::new(PathBuf::from("/c1"), "c1".to_string(), 1, 1,super::NodeType::Directory)),
+            Arc::new(Node::new(PathBuf::from("/c2"), "c2".to_string(), 2, 1,super::NodeType::Directory)),
+            Arc::new(Node::new(PathBuf::from("/c3"), "c3".to_string(), 3, 1,super::NodeType::Directory)),
         ];
         for c in &childes {
             c.set_parent(&root);

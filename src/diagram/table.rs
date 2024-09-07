@@ -1,4 +1,4 @@
-use crate::crawler::Node;
+use crate::crawler::*;
 use crate::{
     args::{CommandArgs, SortType},
     util::thousends_seperator,
@@ -47,12 +47,19 @@ fn export_to_table(nodes: Vec<Arc<Node>>, args: &CommandArgs) -> Vec<Vec<CellStr
 }
 
 fn crawl_tree(tree: &Arc<Node>, args: &CommandArgs, result: &mut Vec<Arc<Node>>) {
+    if *tree.get_node_type()!=NodeType::Directory
+    {
+        return;
+    }
     if tree.get_depth().get() == args.depth && args.depth != 0 {
         return;
     }
     let childrens = tree.get_childes().borrow();
     let deref = childrens.deref();
     for child in deref {
+        if child.get_node_type()!= &NodeType::Directory{
+            continue;
+        }
         result.push(child.clone());
         crawl_tree(child, args, result);
     }
@@ -102,6 +109,7 @@ mod tests {
                 name.to_string(),
                 sizes[size],
                 size,
+                NodeType::Directory,
             )));
         }
         mock
@@ -139,14 +147,14 @@ mod tests {
     #[test]
     fn crawl_tree_test() {
         let mut result: Vec<Arc<Node>> = Vec::new();
-        let root = Arc::new(Node::new(PathBuf::new(), "r".to_string(), 0, 0));
+        let root = Arc::new(Node::new(PathBuf::new(), "r".to_string(), 0, 0,NodeType::Directory));
 
         let mut childes = Vec::new();
         let childes_node = vec![
-            Node::new(PathBuf::new(), "c1".to_string(), 1, 1),
-            Node::new(PathBuf::new(), "c2".to_string(), 2, 1),
-            Node::new(PathBuf::new(), "c3".to_string(), 3, 1),
-            Node::new(PathBuf::new(), "c4".to_string(), 4, 1),
+            Node::new(PathBuf::new(), "c1".to_string(), 1, 1,NodeType::Directory),
+            Node::new(PathBuf::new(), "c2".to_string(), 2, 1,NodeType::Directory),
+            Node::new(PathBuf::new(), "c3".to_string(), 3, 1,NodeType::Directory),
+            Node::new(PathBuf::new(), "c4".to_string(), 4, 1,NodeType::Directory),
         ];
         for c in childes_node {
             childes.push(Arc::new(c));

@@ -1,5 +1,5 @@
 use crate::args::CommandArgs;
-use crate::crawler::Node;
+use crate::crawler::*;
 use crate::diagram::shared::*;
 use crate::util::*;
 use colored::{Color, Colorize};
@@ -16,6 +16,10 @@ pub fn create_tree_diagram(tree: &Arc<Node>, args: &CommandArgs) -> String {
 }
 
 fn crawl_tree(tree: &Arc<Node>, args: &CommandArgs, result: &mut String) {
+    if *tree.get_node_type()!=NodeType::Directory
+    {
+        return;
+    }
     if tree.get_depth().get() == args.depth && args.depth != 0 {
         return;
     }
@@ -26,6 +30,10 @@ fn crawl_tree(tree: &Arc<Node>, args: &CommandArgs, result: &mut String) {
     let deref = childrens.deref();
     for child in deref {
         let node = child.deref();
+        if *node.get_node_type()!=NodeType::Directory
+        {
+            continue;
+        }
         result.push_str(add_branch(node).as_str());
         crawl_tree(child, args, result);
     }
@@ -36,7 +44,7 @@ fn add_branch(node: &Node) -> String {
     let mut size = node.get_size().get().abbreviate_number();
     size.push_str("iB");
     format!(
-        "{}{}{}{} {}",
+        "{}{}{}{} {} ",
         '\n',
         "\t".repeat(node.get_depth().get()),
         branch_char,
@@ -44,9 +52,10 @@ fn add_branch(node: &Node) -> String {
         format!(
             "{}({} bytes)",
             size,
-            thousends_seperator(node.get_size().get()).as_str()
+            thousends_seperator(node.get_size().get()).as_str(),
         )
     )
+  
 }
 
 fn get_branch_char(node: &Node) -> String {
@@ -66,24 +75,24 @@ mod tests {
     use super::*;
     #[test]
     fn get_branch_char_heavy_size_test() {
-        let node = Node::new(PathBuf::from(""), "root".to_string(), 1_000_000_000_000, 0);
+        let node = Node::new(PathBuf::from(""), "root".to_string(), 1_000_000_000_000, 0,NodeType::Directory);
         assert_eq!("\u{1b}[31m├──\u{1b}[0m", get_branch_char(&node));
     }
     #[test]
     fn get_branch_char_medium_size_test() {
-        let node = Node::new(PathBuf::from(""), "root".to_string(), 8_024_000_000, 0);
+        let node = Node::new(PathBuf::from(""), "root".to_string(), 8_024_000_000, 0,NodeType::Directory);
         assert_eq!("\u{1b}[33m├──\u{1b}[0m", get_branch_char(&node));
     }
 
     #[test]
     fn get_branch_char_small_size_test() {
-        let node = Node::new(PathBuf::from(""), "root".to_string(), 5, 0);
+        let node = Node::new(PathBuf::from(""), "root".to_string(), 5, 0,NodeType::Directory);
         assert_eq!("\u{1b}[32m├──\u{1b}[0m", get_branch_char(&node));
     }
 
     #[test]
     fn add_branch_root_test() {
-        let node = Node::new(PathBuf::from(""), "root".to_string(), 5000, 0);
+        let node = Node::new(PathBuf::from(""), "root".to_string(), 5000, 0,NodeType::Directory);
         let input = add_branch(&node);
         let expect = "\n\u{1b}[32m├──\u{1b}[0mroot 5KiB(5,000 bytes)".to_string();
         assert_eq!(expect, input);
@@ -91,7 +100,7 @@ mod tests {
 
     #[test]
     fn add_branch_child_test() {
-        let child = Node::new(PathBuf::from(""), "child".to_string(), 8_024_000_000, 1);
+        let child = Node::new(PathBuf::from(""), "child".to_string(), 8_024_000_000, 1,NodeType::Directory);
         let input = add_branch(&child);
         let expect = "\n\t\u{1b}[33m├──\u{1b}[0mchild 8.02GiB(8,024,000,000 bytes)".to_string();
         assert_eq!(expect, input);
