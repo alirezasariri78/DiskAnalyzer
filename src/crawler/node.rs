@@ -3,7 +3,7 @@ use std::path::PathBuf;
 use std::sync::{Arc, Weak};
 use std::fmt;
 
-#[derive(Debug)]
+#[derive(Debug,Hash,Eq,Clone)]
 pub enum NodeType{
     Directory,
     Audio,

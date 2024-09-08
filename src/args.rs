@@ -19,6 +19,7 @@ trait ArgBuilder {
 pub enum DiagramType {
     Tree,
     Table,
+    MediaType
 }
 
 #[derive(Debug, Clone)]
@@ -117,6 +118,7 @@ impl DiagramType {
         match input.to_lowercase().as_str() {
             "table" => DiagramType::Table,
             "tree" => DiagramType::Tree,
+            "media_type"=>DiagramType::MediaType,
             _ => DiagramType::Tree,
         }
     }

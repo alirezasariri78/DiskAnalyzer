@@ -1,7 +1,7 @@
 mod table;
 mod tree;
 mod shared;
-
+mod media_type;
 
 use cli_table::print_stdout;
 use crate::crawler::Node;
@@ -19,6 +19,9 @@ pub fn show_diagram(root: &Arc<Node>, arguments: &CommandArgs) {
             let table = table::create_table_diagram(root, arguments);
             print_stdout(table)
                 .unwrap_or_else(|e| println!("Failed To Write Table:{}", e.to_string()));
+        },
+        DiagramType::MediaType=>{
+           media_type::create_media_type_diagram(root, arguments);
         }
     };
 }

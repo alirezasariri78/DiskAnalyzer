@@ -18,5 +18,4 @@ clap={version="4.5.4",features=["cargo"]}
 rs-abbreviation-number = "0.2.1"
 cli-table = "0.4"
 colored = "2.1.0"
-mime_guess = "2.0"
-
+piechart="1.0.0"

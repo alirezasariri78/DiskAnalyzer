@@ -4,6 +4,7 @@ mod node;
 use crate::args::CommandArgs;
 use dir::*;
 pub use node::*;
+use std::cell::Cell;
 use std::env;
 use std::io::{self, ErrorKind};
 use std::path::PathBuf;
@@ -84,7 +85,7 @@ fn build_tree(path: PathBuf, node: &Arc<Node>) -> Result<(), DirError> {
         let new_node = Arc::new(Node::new(
                 entry.path().clone(),
                 get_dir_lable(&entry.path()).to_string(),
-                0,
+                metadata.len(),
                 Arc::clone(node).get_depth().get() + 1,
                 node_type
             ));
