@@ -7,6 +7,8 @@ And Set Color (Green For Less Then 1 Giga bytes , Yellow For 1 To 10 Giga bytes 
 
 ![image description](pics/win_tree.png)
 ![image description](pics/win_table.png)
+![image description](pics/pie.png)
+
 
 ## Note:
 
