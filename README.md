@@ -7,6 +7,8 @@ And Set Color (Green For Less Then 1 Giga bytes , Yellow For 1 To 10 Giga bytes 
 
 ![image description](pics/win_tree.png)
 ![image description](pics/win_table.png)
+![image description](pics/pie.png)
+
 
 ## Note:
 
@@ -36,6 +38,28 @@ Options:
 
 ```
 
+
+## Exmaple :
+
+```
+
+Pie Chart: Shows Hom Much Space Is Taken By  Media Types (Video , Image , Audio,File)
+Command Sample: 
+
+      diska  --diagram media_type -d C
+  
+Tree Chart :  Show Hom Much Space Is Taken By  Directories.
+Command Sample: 
+
+      diska  --diagram tree -p "C:\" -s size --st asc --depth 3
+
+Above Example Shows A Diagram Of Directories Size And Their Structure From Given Path And In Depth Of 3 (Explore 3 Level Of Inner Directories)
+And Also Sorts Folders By Their Size.
+
+```
+
+
+
 ## How To Install :
 
 ```
@@ -51,4 +75,4 @@ cargo install DiskAnalyzer
 - [ ] Add Mac Support (Currently It Supports Windows And Linux)
 - [x] Implement Sorting
 - [ ] Handle Files In Terminal (Add Move , etc)
-- [ ] List File Types (Audio , Video , etc)
+- [x] List File Types (Audio , Video , etc)
