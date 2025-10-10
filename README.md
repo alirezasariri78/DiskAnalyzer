@@ -24,7 +24,7 @@ Usage: diska [OPTIONS]
 
 Options:
       --depth <depth>      how many level of inner directories should it scan
-      --diagram <diagram>  Set Diagram Types : tree , table
+      --diagram <diagram>  Set Diagram Types : tree , table , media_type
   -s, --sort <sort>        Sort Folders Based On Given Value : size , name
 
       --st <st>            Can Use By sort
